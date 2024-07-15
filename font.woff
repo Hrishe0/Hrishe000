@@ -1,0 +1,166 @@
+body {
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* Custom font import */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('path/to/your/font.woff') format('woff'); /* Replace with your font file path */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.date-time {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-family: 'CustomFont', Arial, sans-serif; /* Use the custom font here */
+}
+
+/* Remaining styles unchanged */
+.calendar-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+
+.calendar div {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.event-form {
+    position: fixed;
+    top: 0;
+    right: -320px; /* Initially off-screen */
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 100vh; /* Full height of viewport */
+    transition: right 0.3s ease; /* Slide animation */
+    z-index: 999; /* Ensure it's above other content */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border-left: 1px solid #ccc; /* Divider line */
+}
+
+.event-form.open {
+    right: 0; /* Slide into view */
+}
+
+.event-form h2 {
+    margin-top: 0;
+}
+
+.event-form input, .event-form select, .event-form button {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+}
+
+.event-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.event-form button:hover {
+    background-color: #0056b3;
+}
+
+.priority {
+    margin-bottom: 10px;
+}
+
+.priority select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .calendar div {
+    background-color: #444;
+    border-color: #666;
+    color: #fff;
+}
+
+body.dark-mode .event-form {
+    background-color: #444;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .event-form input, 
+body.dark-mode .event-form select, 
+body.dark-mode .event-form button {
+    background-color: #555;
+    border-color: #777;
+    color: #fff;
+}
+
+/* Slider styles */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 10px;
+    background: #ddd;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .15s ease-in-out;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}

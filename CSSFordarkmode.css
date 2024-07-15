@@ -1,0 +1,9 @@
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+body.dark-mode .calendar div {
+    background-color: #444;
+    border-color: #666;
+    color: #fff;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .main-box {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--btn-background);
+            border: none;
+            color: var(--btn-color);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--btn-hover);
+        }
+
+        /* Light Theme */
+        :root {
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --btn-background: #333;
+            --btn-color: #fff;
+            --btn-hover: #555;
+        }
+
+        /* Dark Theme */
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --btn-background: #555;
+            --btn-color: #e0e0e0;
+            --btn-hover: #777;
+        }
+        /* Light Theme */
+        :root {
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --box-background: #fff;
+            --input-background: #fff;
+            --input-border: #aaa;
+            --input-focus-border: #333;
+            --btn-background: #333;
+            --btn-color: #fff;
+            --btn-hover: #555;
+        }
+
+        /* Dark Theme */
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --box-background: #1e1e1e;
+            --input-background: #333;
+            --input-border: #555;
+            --input-focus-border: #bbb;
+            --btn-background: #555;
+            --btn-color: #e0e0e0;
+            --btn-hover: #777;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .toggle-switch label {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-box">
+        <h1>Welcome to the Main Page</h1>
+        <button class="btn" onclick="redirectToCalendar()">Redirect to Calendar</button>
+    </div>
+    <script>
+        // Load theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function redirectToCalendar() {
+            window.location.href = 'calendar.html'; // Redirect to calendar.html
+        }
+    </script>
+</body>
+</html>

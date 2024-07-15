@@ -1,0 +1,20 @@
+<div class="event-form" id="eventForm">
+    <h2>Add Event</h2>
+    <input type="text" id="eventTitle" placeholder="Add title" required>
+    <input type="datetime-local" id="startTime" required>
+    <input type="datetime-local" id="endTime" required>
+    <input type="range" id="notifyTime" min="10" max="60" step="10" value="10" class="slider">
+    <span id="notifyTimeLabel">Notification 10 minutes before</span>
+    <input type="text" id="location" placeholder="Add location">
+    <input type="text" id="guests" placeholder="Add guests (comma separated)">
+    <input type="email" id="email" placeholder="Email event details">
+    <div class="priority">
+        <label for="priority">Priority:</label>
+        <select id="priority">
+            <option value="low" style="color: green;">Low</option>
+            <option value="medium" style="color: orange;">Medium</option>
+            <option value="high" style="color: red;">High</option>
+        </select>
+    </div>
+    <button onclick="addEvent()">Add Event</button>
+</div>
