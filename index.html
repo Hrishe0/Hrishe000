@@ -3,186 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Calendar with Date and Clock</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
+            background-image: url('https://images5.alphacoders.com/132/1327980.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
         }
 
-        .login-box {
-            padding: 40px;
-            background: var(--box-background);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+        .clock-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .clock-container .date {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .clock {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .calendar-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(252, 251, 251, 0.2);
             text-align: center;
         }
 
-        h2 {
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-
-        .textbox {
-            margin-bottom: 20px;
-        }
-
-        .textbox input {
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
             width: 100%;
-            padding: 10px;
-            background: var(--input-background);
-            border: none;
-            border-bottom: 2px solid var(--input-border);
-            color: var(--text-color);
-            outline: none;
-            transition: border-color 0.3s;
         }
 
-        .textbox input:focus {
-            border-color: var(--input-focus-border);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 10px;
-            background: var(--btn-background);
-            border: none;
-            color: var(--btn-color);
+        .calendar div {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background: var(--btn-hover);
-        }
-
-        /* Light Theme */
-        :root {
-            --background-color: #f0f0f0;
-            --text-color: #333;
-            --box-background: #fff;
-            --input-background: #fff;
-            --input-border: #aaa;
-            --input-focus-border: #333;
-            --btn-background: #333;
-            --btn-color: #fff;
-            --btn-hover: #555;
-        }
-
-        /* Dark Theme */
-        body.dark-mode {
-            --background-color: #121212;
-            --text-color: #e0e0e0;
-            --box-background: #1e1e1e;
-            --input-background: #333;
-            --input-border: #555;
-            --input-focus-border: #bbb;
-            --btn-background: #555;
-            --btn-color: #e0e0e0;
-            --btn-hover: #777;
-        }
-
-        /* Toggle Switch */
-        .toggle-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .toggle-switch label {
+            border-radius: 10px;
             position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
         }
 
-        .toggle-switch input {
-            display: none;
+        .event-form {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            height: 100vh;
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+            border-left: 1px solid #ccc;
+        }
+
+        .event-form.open {
+            right: 0;
+        }
+
+        .event-form h2 {
+            margin-top: 0;
+        }
+
+        .event-form input,
+        .event-form select,
+        .event-form button {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: "SF Pro Display", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+        }
+
+        .event-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .event-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .priority {
+            margin-bottom: 10px;
+        }
+
+        .priority select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
         }
 
         .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 34px;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 10px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .15s ease-in-out;
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.4s;
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
         }
 
-        input:checked + .slider {
-            background-color: #2196F3;
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
         }
 
-        input:checked + .slider:before {
-            transform: translateX(26px);
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark-mode .calendar div {
+            background-color: #444;
+            border-color: #666;
+            color: #fff;
+        }
+
+        body.dark-mode .event-form {
+            background-color: #444;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .event-form input,
+        body.dark-mode .event-form select,
+        body.dark-mode .event-form button {
+            background-color: #555;
+            border-color: #777;
+            color: #fff;
+        }
+
+        .event-element {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 5px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .event-element .buttons {
+            display: none;
+        }
+
+        .event-element button {
+            padding: 3px 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+
+        .event-element button:hover {
+            background: #0056b3;
+        }
+
+        .event-element .delete-button {
+            background: #dc3545;
+        }
+
+        .event-element .delete-button:hover {
+            background: #c82333;
         }
     </style>
 </head>
-<body>
-    <div class="toggle-switch">
-        <label>
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
-    <div class="login-box">
-        <h2>Login</h2>
-        <form onsubmit="handleSubmit(event)">
-            <div class="textbox">
-                <input type="password" placeholder="Password" name="password" id="password" required>
-            </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
-    </div>
-    <script>
-        const toggleSwitch = document.getElementById('theme-toggle');
-        const body = document.body;
 
-        // Load theme from localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            toggleSwitch.checked = true;
+<body>
+    <div class="clock-container">
+        <p class="date" id="currentDate"></p>
+        <p class="clock" id="currentClock"></p>
+    </div>
+
+    <div class="calendar-container">
+        <div class="calendar" id="calendar"></div>
+    </div>
+
+    <div class="event-form" id="eventForm">
+        <h2>Add Event</h2>
+        <input type="hidden" id="eventId">
+        <input type="text" id="eventTitle" placeholder="Add title" required>
+        <input type="datetime-local" id="startTime" required>
+        <input type="datetime-local" id="endTime" required>
+        <input type="range" id="notifyTime" min="10" max="60" step="10" value="10" class="slider">
+        <span id="notifyTimeLabel">Notification 10 minutes before</span>
+        <input type="text" id="location" placeholder="Add location">
+        <input type="text" id="guests" placeholder="Add guests (comma separated)">
+        <input type="email" id="email" placeholder="Email event details">
+        <div class="priority">
+            <label for="priority">Priority:</label>
+            <select id="priority">
+                <option value="low" style="color: green;">Low</option>
+                <option value="medium" style="color: orange;">Medium</option>
+                <option value="high" style="color: red;">High</option>
+            </select>
+        </div>
+        <button onclick="saveEvent()">Save Event</button>
+        <button onclick="deleteEvent()">Delete Event</button>
+        <button onclick="closeEventForm()">Cancel</button>
+    </div>
+
+    <script>
+        let events = JSON.parse(localStorage.getItem('events')) || [];
+        let currentEventId = null;
+
+        function saveEvents() {
+            localStorage.setItem('events', JSON.stringify(events));
         }
 
-        toggleSwitch.addEventListener('change', () => {
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-        });
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
 
-        function handleSubmit(event) {
-            event.preventDefault(); // Prevent the default form submission
-            const passwordInput = document.getElementById('password');
-            const password = passwordInput.value.trim();
+            const currentDate = now.toLocaleDateString('en-US', dateOptions);
+            const currentClock = now.toLocaleTimeString('en-US', timeOptions);
 
-            if (password === 'Yokai') {
-                window.location.href = 'Main.html'; // Redirect to main.html
-            } else {
-                alert('Wrong password');
+            document.getElementById('currentDate').textContent = currentDate;
+            document.getElementById('currentClock').textContent = currentClock;
+        }
+
+        setInterval(updateDateTime, 1000);
+
+        function createCalendar() {
+            const calendarElement = document.getElementById('calendar');
+            const currentDate = new Date();
+            const monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            const daysInMonth = monthEnd.getDate();
+            const startDay = monthStart.getDay();
+
+            calendarElement.innerHTML = '';
+
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.classList.add('empty');
+                calendarElement.appendChild(emptyCell);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayCell = document.createElement('div');
+                dayCell.textContent = i;
+
+                const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+                const eventsForDay = events.filter(event => new Date(event.startTime).toDateString() === date.toDateString());
+
+                eventsForDay.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.textContent = event.title;
+                    eventElement.className = `event-element priority-${event.priority}`;
+                    eventElement.style.backgroundColor = getPriorityColor(event.priority);
+                    eventElement.setAttribute('data-id', event.id);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.addEventListener('click', () => deleteEvent(event.id));
+
+                    eventElement.appendChild(deleteButton);
+                    dayCell.appendChild(eventElement);
+                });
+
+                dayCell.addEventListener('click', () => openEventForm(date));
+                calendarElement.appendChild(dayCell);
             }
         }
+
+        function getPriorityColor(priority) {
+            switch (priority) {
+                case 'high':
+                    return '#ff4d4d';
+                case 'medium':
+                    return '#ffa500';
+                case 'low':
+                    return '#90ee90';
+                default:
+                    return '#ccc';
+            }
+        }
+
+        function openEventForm(date) {
+            const eventForm = document.getElementById('eventForm');
+            eventForm.classList.add('open');
+            document.getElementById('startTime').value = date.toISOString().slice(0, 16);
+            document.getElementById('endTime').value = date.toISOString().slice(0, 16);
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('guests').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('priority').value = 'low';
+            currentEventId = null;
+        }
+
+        function closeEventForm() {
+            document.getElementById('eventForm').classList.remove('open');
+        }
+
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const location = document.getElementById('location').value;
+            const guests = document.getElementById('guests').value.split(',').map(guest => guest.trim());
+            const email = document.getElementById('email').value;
+            const priority = document.getElementById('priority').value;
+
+            if (!title || !startTime || !endTime) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const event = {
+                id: currentEventId || Date.now(),
+                title,
+                startTime,
+                endTime,
+                location,
+                guests,
+                email,
+                priority
+            };
+
+            if (currentEventId) {
+                events = events.map(e => e.id === currentEventId ? event : e);
+            } else {
+                events.push(event);
+            }
+
+            saveEvents();
+            createCalendar();
+            closeEventForm();
+        }
+
+        function deleteEvent(eventId) {
+            events = events.filter(event => event.id !== eventId);
+            saveEvents();
+            createCalendar();
+        }
+
+        createCalendar();
     </script>
 </body>
+
 </html>
